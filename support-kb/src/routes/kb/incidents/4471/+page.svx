@@ -1,8 +1,8 @@
 ---
 layout: runbook
-title: '#4471 · date reports have two causes'
+title: '#4471 · date causes and engineering outcomes'
 owner: support desk
-status: needs-split
+status: resolved
 reviewed: 2026-11-10
 signature: devduel
 ---
@@ -16,25 +16,27 @@ signature: devduel
 
 The export pages overlap, so count each report ID once. The table and timeline deduplicate before they group or count reports.
 
-<Callout kind="warn">
-  #4471 was marked known as one issue. The tenant locale and booking-form data show two different causes. Keep the shared parser under #4471; track the form-hint cause separately.
+<Callout>
+  Engineering closed #4471 on 5 October. The shared parser was fixed with <code>fix(dates): parse dd/mm for eu locales</code>. The booking-v3 hint will not be fixed because the form was retired.
 </Callout>
 
 ## What was merged
 
 <CauseTable ticket={4471} />
 
-## Keep under #4471 · shared parser
+The table shows how the source support ticket was originally grouped. The GitHub tracking issues below record each cause's engineering outcome.
 
-The shared parser reads dates month first. For tenants whose locale writes the day first, the parser flips the month and day before the booking is sent. This is the main cause in #4471 and belongs in its own repair issue.
+## Fixed · shared parser
 
-**Tracking:** [Shared date parser issue #1](https://github.com/devduel/megadev-challenge/issues/1) · **379 reports**
+The shared parser read dates month first. For tenants whose locale writes the day first, it flipped the month and day before the booking was sent. Engineering fixed this with <code>fix(dates): parse dd/mm for eu locales</code>.
 
-## Split out · booking-v3 date hint
+**Tracking:** [Shared date parser issue #1 · closed as fixed](https://github.com/devduel/megadev-challenge/issues/1) · **379 reports**
 
-The booking-v3 form tells people to enter `MM/DD/YYYY`, while the affected tenants use day-first dates. The form then interprets the entered value in the tenant's locale, reversing the date. These form reports have a different cause from the shared parser and need a separate issue.
+## Won't fix · booking-v3 date hint
 
-**Tracking:** [booking-v3 date hint issue #2](https://github.com/devduel/megadev-challenge/issues/2) · **33 reports**
+The booking-v3 form told people to enter `MM/DD/YYYY`, while the affected tenants use day-first dates. The form interpreted the entered value in the tenant's locale, reversing the date. Engineering retired the booking-v3 form, so it will not be fixed.
+
+**Tracking:** [booking-v3 date hint issue #2 · closed as won't fix](https://github.com/devduel/megadev-challenge/issues/2) · **33 reports**
 
 ## Triage evidence
 

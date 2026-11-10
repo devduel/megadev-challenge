@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>#4471 · date reports have two causes · support kb</title>
+<title>#4471 · date causes and engineering outcomes · support kb</title>
 <style>
 :root{color-scheme:light dark;--bg:#fbfaf7;--fg:#1d1d1b;--muted:#6b6a66;--line:#e3e0d8;--accent:#2f6f5e;--warn:#b4501f;--warn-bg:#fbeee6;--note-bg:#eef5f2;--mono:ui-monospace,'Cascadia Code',Menlo,monospace}
 @media(prefers-color-scheme:dark){:root{--bg:#171716;--fg:#ecebe6;--muted:#9c9a93;--line:#34332f;--accent:#6fbfa6;--warn:#f0905d;--warn-bg:#3a2418;--note-bg:#1d2c27}}
@@ -12,19 +12,20 @@
 </head>
 <body><main class="kb">
 <a class="crumb" href="#kb">support desk · kb</a>
-<header><h1>#4471 · date reports have two causes</h1><p class="meta"><span>owner <b>support desk</b></span><span class="status">needs-split</span><span>reviewed 2026-11-10 · 0 days ago</span></p></header>
+<header><h1>#4471 · date causes and engineering outcomes</h1><p class="meta"><span>owner <b>support desk</b></span><span class="status">resolved</span><span>reviewed 2026-11-10 · 0 days ago</span></p></header>
 <p>The export pages overlap, so count each report ID once. The table and timeline deduplicate before they group or count reports.</p>
-<aside class="callout warn">#4471 was marked known as one issue. The tenant locale and booking-form data show two different causes. Keep the shared parser under #4471; track the form-hint cause separately.</aside>
+<aside class="callout">Engineering closed #4471 on 5 October. The shared parser was fixed with <code>fix(dates): parse dd/mm for eu locales</code>. The booking-v3 hint will not be fixed because the form was retired.</aside>
 <h2>What was merged</h2>
 <p class="sum"><strong>412</strong> reports merged into #4471 · <strong>2</strong> causes</p>
 <table><thead><tr><th>cause</th><th>reports</th><th>tagged as</th><th>tenants</th><th>seen</th><th></th></tr></thead><tbody><tr class=""><td><code>parser</code></td><td>379</td><td class="tags">parser ×356 · hint ×23</td><td>11</td><td>2026-04-01 → 2026-10-04</td><td>#4471</td></tr><tr class="wrong"><td><code>hint</code></td><td>33</td><td class="tags">hint ×18 · parser ×15</td><td>3</td><td>2026-04-17 → 2026-09-22</td><td>not this ticket — no ticket of its own</td></tr></tbody></table>
+<p class="note">The table shows how the source support ticket was originally grouped. The GitHub tracking issues below record each cause's engineering outcome.</p>
 <p class="note">5 reports read as a one-day move; filed under <code>parser</code> by tenant.</p>
-<h2>Keep under #4471 · shared parser</h2>
-<p>The shared parser reads dates month first. For tenants whose locale writes the day first, the parser flips the month and day before the booking is sent. This is the main cause in #4471 and belongs in its own repair issue.</p>
-<p><strong>Tracking:</strong> <a href="https://github.com/devduel/megadev-challenge/issues/1">Shared date parser issue #1</a> · <strong>379 reports</strong></p>
-<h2>Split out · booking-v3 date hint</h2>
-<p>The booking-v3 form tells people to enter <code>MM/DD/YYYY</code>, while the affected tenants use day-first dates. The form then interprets the entered value in the tenant's locale, reversing the date. These form reports have a different cause from the shared parser and need a separate issue.</p>
-<p><strong>Tracking:</strong> <a href="https://github.com/devduel/megadev-challenge/issues/2">booking-v3 date hint issue #2</a> · <strong>33 reports</strong></p>
+<h2>Fixed · shared parser</h2>
+<p>The shared parser read dates month first. For tenants whose locale writes the day first, it flipped the month and day before the booking was sent. Engineering fixed this with <code>fix(dates): parse dd/mm for eu locales</code>.</p>
+<p><strong>Tracking:</strong> <a href="https://github.com/devduel/megadev-challenge/issues/1">Shared date parser issue #1 · closed as fixed</a> · <strong>379 reports</strong></p>
+<h2>Won't fix · booking-v3 date hint</h2>
+<p>The booking-v3 form told people to enter <code>MM/DD/YYYY</code>, while the affected tenants use day-first dates. The form interpreted the entered value in the tenant's locale, reversing the date. Engineering retired the booking-v3 form, so it will not be fixed.</p>
+<p><strong>Tracking:</strong> <a href="https://github.com/devduel/megadev-challenge/issues/2">booking-v3 date hint issue #2 · closed as won't fix</a> · <strong>33 reports</strong></p>
 <h2>Triage evidence</h2>
 <p><code>meta.intakeTag</code> is an intake guess based on the reporter's browser locale, not proof of cause. Group by the tenant's configured locale and booking form, together with the report channel. The five reports noted as a one-day move still fall under the parser cause; they are not a third bug.</p>
 <h2>Since April</h2>
