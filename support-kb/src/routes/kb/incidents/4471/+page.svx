@@ -1,0 +1,47 @@
+---
+layout: runbook
+title: '#4471 · date reports have two causes'
+owner: support desk
+status: needs-split
+reviewed: 2026-11-10
+signature: devduel
+---
+
+<script>
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import QueueTimeline from '#lib/kb/QueueTimeline.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+The export pages overlap, so count each report ID once. The table and timeline deduplicate before they group or count reports.
+
+<Callout kind="warn">
+  #4471 was marked known as one issue. The tenant locale and booking-form data show two different causes. Keep the shared parser under #4471; track the form-hint cause separately.
+</Callout>
+
+## What was merged
+
+<CauseTable ticket={4471} />
+
+## Keep under #4471 · shared parser
+
+The shared parser reads dates month first. For tenants whose locale writes the day first, the parser flips the month and day before the booking is sent. This is the main cause in #4471 and belongs in its own repair issue.
+
+**Tracking:** [Shared date parser issue #1](https://github.com/devduel/megadev-challenge/issues/1) · **379 reports**
+
+## Split out · booking-v3 date hint
+
+The booking-v3 form tells people to enter `MM/DD/YYYY`, while the affected tenants use day-first dates. The form then interprets the entered value in the tenant's locale, reversing the date. These form reports have a different cause from the shared parser and need a separate issue.
+
+**Tracking:** [booking-v3 date hint issue #2](https://github.com/devduel/megadev-challenge/issues/2) · **33 reports**
+
+## Triage evidence
+
+`meta.intakeTag` is an intake guess based on the reporter's browser locale, not proof of cause. Group by the tenant's configured locale and booking form, together with the report channel. The five reports noted as a one-day move still fall under the parser cause; they are not a third bug.
+
+## Since April
+
+<QueueTimeline ticket={4471} />
+
+<RenderStamp {signature} />
